@@ -55,7 +55,8 @@ static void app_audio(int32_t *out, uint32_t n)
             if (amp < g) { amp += 48; if (amp > g) amp = g; }        /* attack ~5 ms */
             else if (amp > g) { amp -= 6; if (amp < g) amp = g; }    /* release ~45 ms */
             ph += step;
-            s = (sine(ph) * amp) >> 15;
+           s = ((int32_t)ph < 0 ? 8000 : -8000) * amp >> 15;
+
             out[2u * i] += s;                   /* L */
             out[2u * i + 1u] += s;              /* R */
         }
